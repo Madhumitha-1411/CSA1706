@@ -1,0 +1,18 @@
+def vacuum_cleaner():
+    rooms = ['A', 'B']
+    state = {'A': 'dirty', 'B': 'dirty'}
+    vacuum_location = 'A'
+
+    print("Initial State:", state)
+    for _ in range(4):
+        if state[vacuum_location] == 'dirty':
+            print(f"Vacuum in {vacuum_location}: Cleaning")
+            state[vacuum_location] = 'clean'
+        else:
+            print(f"Vacuum in {vacuum_location}: Already clean")
+
+        vacuum_location = 'B' if vacuum_location == 'A' else 'A'
+    
+    print("Final State:", state)
+
+vacuum_cleaner()

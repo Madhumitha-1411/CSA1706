@@ -1,0 +1,39 @@
+from collections import deque
+
+def is_valid(state):
+    m1, c1, b, m2, c2 = state
+    if (m1 < c1 and m1 != 0) or (m2 < c2 and m2 != 0):
+        return False
+    return True
+
+def get_successors(state):
+    m1, c1, b, m2, c2 = state
+    moves = [(1,0),(2,0),(0,1),(0,2),(1,1)]
+    successors = []
+    for m, c in moves:
+        if b == 1:
+            new_state = (m1-m, c1-c, 0, m2+m, c2+c)
+        else:
+            new_state = (m1+m, c1+c, 1, m2-m, c2-c)
+        if all(x >= 0 for x in new_state[:2]) and all(x >= 0 for x in new_state[3:]) and is_valid(new_state):
+            successors.append(new_state)
+    return successors
+
+def missionaries_cannibals():
+    start = (3,3,1,0,0)
+    goal = (0,0,0,3,3)
+    queue = deque([(start, [start])])
+    visited = set()
+
+    while queue:
+        state, path = queue.popleft()
+        if state == goal:
+            for p in path:
+                print(p)
+            return
+        visited.add(state)
+        for succ in get_successors(state):
+            if succ not in visited:
+                queue.append((succ, path+[succ]))
+
+missionaries_cannibals()
